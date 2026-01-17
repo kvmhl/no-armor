@@ -93,10 +93,3 @@ The plugin JAR will be at `target/NoArmor-1.0-SNAPSHOT.jar`
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
-
----
-
-## AI Disclosure
-
-> [!NOTE]
-> **This plugin was created with the assistance of [Google Gemini](https://deepmind.google/technologies/gemini/) (Antigravity)**, an AI coding assistant by Google DeepMind. The AI helped with code generation, documentation, and project structure. All code has been reviewed and the plugin is fully functional. I use AI tools as part of my development workflow.

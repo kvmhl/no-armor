@@ -1,84 +1,116 @@
-# NoArmor CI/CD Pipeline Documentation
+# NoArmor CI/CD Pipeline
 
-This document explains the GitHub Actions pipeline for the NoArmor plugin.
+This document explains how to set up and use the GitHub Actions pipeline.
 
-## Pipeline Overview
+---
 
-```mermaid
-graph LR
-    A[Push/PR] --> B[Build Job]
-    B --> C{Tests Pass?}
-    C -->|Yes| D[Upload Artifact]
-    C -->|No| E[Fail Build]
-    D --> F{Is Tag?}
-    F -->|Yes| G[Release Job]
-    F -->|No| H[Done]
-    G --> I[Create GitHub Release]
+## Prerequisites
+
+Before pushing to GitHub, make sure you have:
+
+1. **A GitHub account** (free tier works fine)
+2. **Git installed** and configured with your GitHub credentials
+3. **A new GitHub repository** (public or private)
+
+---
+
+## Initial Setup (One Time)
+
+### Step 1: Create a GitHub Repository
+
+1. Go to [github.com/new](https://github.com/new)
+2. Enter repository name: `NoArmor` (or whatever you prefer)
+3. Set to **Public** or **Private**
+4. **DO NOT** initialize with README (you already have one)
+5. Click **Create repository**
+
+### Step 2: Connect Your Local Repo
+
+After creating the repo, GitHub shows commands. Run these in your project folder:
+
+```powershell
+# Add GitHub as remote (replace YOUR_USERNAME with your GitHub username)
+git remote add origin https://github.com/YOUR_USERNAME/NoArmor.git
+
+# Push to GitHub
+git branch -M main
+git push -u origin main
 ```
 
-## Triggers
+### Step 3: Verify Pipeline Works
 
-| Event | Branches/Tags | Action |
-|-------|---------------|--------|
-| Push | `main`, `master`, `develop` | Build + Test |
-| Push | `v*` tags | Build + Test + Release |
-| Pull Request | `main`, `master` | Build + Test |
+1. Go to your repository on GitHub
+2. Click the **Actions** tab
+3. You should see the "Build & Test" workflow running
+4. Wait for it to complete (green checkmark = success)
 
-## Jobs
+---
 
-### 1. Build Job
+## Creating a Release
 
-**Runs on:** Every push and PR
+When you're ready to publish a new version:
 
-**Steps:**
-1. Checkout code
-2. Setup Java 21 (Temurin)
-3. Build with Maven (`mvn clean package`)
-4. Run tests (`mvn test`)
-5. Upload JAR artifact
+```powershell
+# Make sure all changes are committed
+git add -A
+git commit -m "Ready for release v1.0.0"
 
-### 2. Release Job
-
-**Runs on:** Only when a version tag (`v*`) is pushed
-
-**Steps:**
-1. Build release JAR
-2. Create GitHub Release with the JAR attached
-
-## Usage
-
-### Running Tests Locally
-
-```bash
-mvn clean test
-```
-
-### Building Locally
-
-```bash
-mvn clean package
-```
-
-### Creating a Release
-
-1. Update version in `pom.xml`
-2. Commit changes
-3. Create and push a tag:
-
-```bash
+# Create a version tag
 git tag v1.0.0
+
+# Push the tag to GitHub
 git push origin v1.0.0
 ```
 
 The pipeline will automatically:
-- Build the plugin
-- Run all tests
-- Create a GitHub Release
-- Attach the JAR file
+1. Build the plugin
+2. Run all tests
+3. Create a GitHub Release page
+4. Attach the compiled JAR file
 
-## Artifacts
+---
 
-After each build, the plugin JAR is available as a downloadable artifact:
-- Go to Actions tab
-- Click on the workflow run
-- Download "NoArmor-Plugin" artifact
+## Pipeline Triggers
+
+| When | What Happens |
+|------|--------------|
+| Push to `main` or `develop` | Build + Test |
+| Open a Pull Request | Build + Test |
+| Push a `v*` tag (e.g., `v1.0.0`) | Build + Test + Create Release |
+
+---
+
+## Downloading Artifacts
+
+Even without creating a release, you can download the built JAR:
+
+1. Go to **Actions** tab
+2. Click on a completed workflow run
+3. Scroll to **Artifacts**
+4. Download **NoArmor-Plugin**
+
+---
+
+## Troubleshooting
+
+### Build Fails
+
+- Check the Actions tab for error logs
+- Make sure `pom.xml` is valid
+- Ensure all Java files compile locally with `mvn clean package`
+
+### Tests Fail
+
+- Run tests locally first: `mvn test`
+- Check test output in the Actions log
+
+### Release Not Created
+
+- Make sure the tag starts with `v` (e.g., `v1.0.0`, not `1.0.0`)
+- Verify the tag was pushed: `git push origin --tags`
+
+---
+
+## Permissions Note
+
+The pipeline uses the default `GITHUB_TOKEN` which is automatically provided by GitHub Actions. No additional secrets or configuration needed!

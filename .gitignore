@@ -10,13 +10,17 @@ target/
 .vscode/
 *.swp
 *.swo
+*.code-workspace
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # Maven wrapper
 .mvn/
+mvnw
+mvnw.cmd
 
 # Logs
 *.log
@@ -24,3 +28,30 @@ logs/
 
 # Local config overrides
 local.properties
+local.yml
+*.local
+
+# Private notes and dev files
+notes.txt
+notes.md
+todo.txt
+TODO.md
+NOTES.md
+dev-notes/
+.private/
+scratch/
+
+# Test server
+server/
+test-server/
+plugins/
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Environment files
+.env
+.env.local
+.env.*.local
