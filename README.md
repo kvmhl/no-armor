@@ -3,7 +3,7 @@
 [![Build & Test](https://github.com/kvmhl/no-armor/actions/workflows/build.yml/badge.svg)](https://github.com/kvmhl/no-armor/actions/workflows/build.yml)
 [![GitHub release](https://img.shields.io/github/v/release/kvmhl/no-armor)](https://github.com/kvmhl/no-armor/releases/latest)
 
-A lightweight [PaperMC](https://papermc.io/) plugin for Minecraft 1.21.11+ that lets you customize which armor, tools, and inventory slots players can use — with visual feedback showing restricted slots as greyed out.
+A lightweight [PaperMC](https://papermc.io/) plugin for Minecraft 1.21.11 that lets you customize which armor, tools, and inventory slots players can use — with visual feedback showing restricted slots as greyed out.
 
 ## Features
 
