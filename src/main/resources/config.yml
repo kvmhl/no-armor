@@ -625,3 +625,4 @@ messages:
   item-blocked: "&cYou are not allowed to use this item!"
   armor-blocked: "&cYou cannot equip this armor piece!"
   slot-blocked: "&cThis inventory slot is restricted!"
+  craft-blocked: "&cYou cannot craft this item!"

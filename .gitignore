@@ -55,3 +55,9 @@ plugins/
 .env
 .env.local
 .env.*.local
+build_log*.txt
+test_output.txt
+build_output.txt
+release_output.txt
+release_log*.txt
+release_log*.txt

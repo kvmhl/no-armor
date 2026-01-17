@@ -1,6 +1,7 @@
 package no_armor;
 
 import no_armor.listeners.ArmorEquipListener;
+import no_armor.listeners.CraftingRestrictionListener;
 import no_armor.listeners.InventorySlotListener;
 import no_armor.listeners.SlotRestrictionListener;
 import no_armor.listeners.ToolUseListener;
@@ -27,6 +28,7 @@ public class NoArmorPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ArmorEquipListener(this), this);
         getServer().getPluginManager().registerEvents(new ToolUseListener(this), this);
         getServer().getPluginManager().registerEvents(new InventorySlotListener(this), this);
+        getServer().getPluginManager().registerEvents(new CraftingRestrictionListener(this), this);
 
         slotRestrictionListener = new SlotRestrictionListener(this);
         getServer().getPluginManager().registerEvents(slotRestrictionListener, this);

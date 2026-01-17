@@ -7,12 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,12 +20,13 @@ import java.util.*;
 /**
  * Handles inventory slot restrictions - blocks specific inventory slots
  * entirely.
- * Allows greying out whole inventory slots (not just armor).
+ * Uses a periodic task to maintain overlays and enforce restrictions.
  */
 public class SlotRestrictionListener implements Listener {
 
     private final NoArmorPlugin plugin;
     private final Set<Integer> restrictedSlots = new HashSet<>();
+    private final Map<UUID, Integer> enforcementTasks = new HashMap<>();
 
     // Inventory slot constants
     public static final int HOTBAR_START = 0;
@@ -44,9 +44,6 @@ public class SlotRestrictionListener implements Listener {
         loadRestrictedSlots();
     }
 
-    /**
-     * Load restricted slots from config
-     */
     public void loadRestrictedSlots() {
         restrictedSlots.clear();
 
@@ -58,10 +55,6 @@ public class SlotRestrictionListener implements Listener {
         plugin.getLogger().info("Loaded " + restrictedSlots.size() + " restricted inventory slots");
     }
 
-    /**
-     * Parse slot config entry (supports ranges like "0-8" and single slots like
-     * "5")
-     */
     private void parseAndAddSlots(String entry) {
         entry = entry.trim();
         if (entry.isEmpty())
@@ -97,17 +90,16 @@ public class SlotRestrictionListener implements Listener {
         }
     }
 
-    /**
-     * Check if a slot is restricted
-     */
     public boolean isSlotRestricted(int slot) {
         return restrictedSlots.contains(slot);
     }
 
     /**
-     * Block clicking on restricted slots
+     * Block direct clicks on restricted slots only
+     * Let shift-clicks through - the enforcer will handle items landing in wrong
+     * slots
      */
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) {
             return;
@@ -117,43 +109,41 @@ public class SlotRestrictionListener implements Listener {
             return;
         }
 
-        // Check if clicking on a restricted slot in player inventory
-        if (event.getClickedInventory() != null &&
-                event.getClickedInventory().equals(player.getInventory())) {
-
+        // Only block direct interaction with restricted slots
+        if (event.getClickedInventory() instanceof PlayerInventory) {
             int slot = event.getSlot();
             if (isSlotRestricted(slot)) {
-                // Check if it's our overlay item
+                // Block picking up overlay items
                 ItemStack clicked = event.getCurrentItem();
                 if (clicked != null && isOverlayItem(clicked)) {
                     event.setCancelled(true);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getConfig().getString("messages.slot-blocked",
-                                    "&cThis inventory slot is restricted!")));
                     return;
                 }
 
-                // Block placing items in restricted slots
-                if (event.getCursor() != null && !event.getCursor().getType().isAir()) {
-                    event.setCancelled(true);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getConfig().getString("messages.slot-blocked",
-                                    "&cThis inventory slot is restricted!")));
+                // Block placing items directly in restricted slots
+                ClickType click = event.getClick();
+                if (click == ClickType.LEFT || click == ClickType.RIGHT ||
+                        click == ClickType.MIDDLE || click == ClickType.CREATIVE) {
+                    if (event.getCursor() != null && !event.getCursor().getType().isAir()) {
+                        event.setCancelled(true);
+                        sendBlockedMessage(player);
+                        return;
+                    }
                 }
             }
         }
 
-        // Block shift-click into restricted slots
-        if (event.isShiftClick() && event.getCurrentItem() != null) {
-            // Find where the item would go
-            for (int slot : restrictedSlots) {
-                ItemStack existing = player.getInventory().getItem(slot);
-                if (existing == null || existing.getType().isAir() || isOverlayItem(existing)) {
-                    // Item might go to this restricted slot
+        // Handle hotbar swap (number keys) to restricted slots
+        if (event.getClick() == ClickType.NUMBER_KEY) {
+            int hotbarSlot = event.getHotbarButton();
+            if (isSlotRestricted(hotbarSlot)) {
+                event.setCancelled(true);
+                return;
+            }
+            // Also block swapping TO a restricted slot
+            if (event.getClickedInventory() instanceof PlayerInventory) {
+                if (isSlotRestricted(event.getSlot())) {
                     event.setCancelled(true);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            plugin.getConfig().getString("messages.slot-blocked",
-                                    "&cThis inventory slot is restricted!")));
                     return;
                 }
             }
@@ -161,11 +151,11 @@ public class SlotRestrictionListener implements Listener {
     }
 
     /**
-     * Apply overlays when player opens inventory
+     * Block dragging items into restricted slots
      */
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryOpen(InventoryOpenEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) {
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player)) {
             return;
         }
 
@@ -173,30 +163,21 @@ public class SlotRestrictionListener implements Listener {
             return;
         }
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!player.isOnline())
+        // Check if any dragged slot is restricted in player inventory
+        for (int rawSlot : event.getRawSlots()) {
+            if (event.getView().getInventory(rawSlot) instanceof PlayerInventory) {
+                int slot = event.getView().convertSlot(rawSlot);
+                if (isSlotRestricted(slot)) {
+                    event.setCancelled(true);
+                    sendBlockedMessage(player);
                     return;
-                applySlotOverlays(player);
+                }
             }
-        }.runTaskLater(plugin, 1L);
-    }
-
-    /**
-     * Remove overlays when inventory closes
-     */
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player player)) {
-            return;
         }
-
-        removeSlotOverlays(player);
     }
 
     /**
-     * Apply overlays when player joins
+     * Start enforcement task when player joins
      */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -206,31 +187,81 @@ public class SlotRestrictionListener implements Listener {
             return;
         }
 
-        // Clear any items in restricted slots
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (!player.isOnline())
-                    return;
-                clearRestrictedSlots(player);
-            }
-        }.runTaskLater(plugin, 5L);
+        // Start periodic enforcement task
+        startEnforcementTask(player);
     }
 
     /**
-     * Apply grey glass overlays to empty restricted slots
+     * Stop enforcement task when player leaves
      */
-    private void applySlotOverlays(Player player) {
-        Inventory inv = player.getInventory();
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        stopEnforcementTask(event.getPlayer());
+        removeSlotOverlays(event.getPlayer());
+    }
+
+    /**
+     * Start a periodic task to enforce slot restrictions AND maintain overlays
+     */
+    private void startEnforcementTask(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        // Cancel existing task if any
+        stopEnforcementTask(player);
+
+        // Run every 5 ticks (0.25 seconds) to catch bypasses and maintain overlays
+        int taskId = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!player.isOnline()) {
+                    this.cancel();
+                    enforcementTasks.remove(uuid);
+                    return;
+                }
+                if (player.hasPermission("noarmor.bypass")) {
+                    return;
+                }
+
+                // ALWAYS maintain overlays and enforce restrictions
+                enforceAndOverlay(player);
+            }
+        }.runTaskTimer(plugin, 10L, 5L).getTaskId();
+
+        enforcementTasks.put(uuid, taskId);
+    }
+
+    /**
+     * Stop the enforcement task for a player
+     */
+    private void stopEnforcementTask(Player player) {
+        UUID uuid = player.getUniqueId();
+        Integer taskId = enforcementTasks.remove(uuid);
+        if (taskId != null) {
+            plugin.getServer().getScheduler().cancelTask(taskId);
+        }
+    }
+
+    /**
+     * Enforce restrictions AND apply/maintain overlays
+     */
+    private void enforceAndOverlay(Player player) {
+        PlayerInventory inv = player.getInventory();
 
         for (int slot : restrictedSlots) {
             if (slot < 0 || slot > 40)
                 continue;
 
             ItemStack current = inv.getItem(slot);
+
             if (current == null || current.getType().isAir()) {
+                // Empty slot - place overlay
+                inv.setItem(slot, createOverlayItem());
+            } else if (!isOverlayItem(current)) {
+                // Real item in restricted slot - drop it
+                player.getWorld().dropItemNaturally(player.getLocation(), current.clone());
                 inv.setItem(slot, createOverlayItem());
             }
+            // If it's already an overlay, leave it alone
         }
     }
 
@@ -238,30 +269,11 @@ public class SlotRestrictionListener implements Listener {
      * Remove overlay items from inventory
      */
     private void removeSlotOverlays(Player player) {
-        Inventory inv = player.getInventory();
+        PlayerInventory inv = player.getInventory();
 
         for (int slot = 0; slot <= 40; slot++) {
             ItemStack item = inv.getItem(slot);
             if (item != null && isOverlayItem(item)) {
-                inv.setItem(slot, null);
-            }
-        }
-    }
-
-    /**
-     * Clear items from restricted slots (for enforcement)
-     */
-    private void clearRestrictedSlots(Player player) {
-        Inventory inv = player.getInventory();
-
-        for (int slot : restrictedSlots) {
-            if (slot < 0 || slot > 40)
-                continue;
-
-            ItemStack current = inv.getItem(slot);
-            if (current != null && !current.getType().isAir() && !isOverlayItem(current)) {
-                // Drop item on ground
-                player.getWorld().dropItemNaturally(player.getLocation(), current);
                 inv.setItem(slot, null);
             }
         }
@@ -300,7 +312,7 @@ public class SlotRestrictionListener implements Listener {
     /**
      * Check if item is our overlay
      */
-    private boolean isOverlayItem(ItemStack item) {
+    public boolean isOverlayItem(ItemStack item) {
         if (item == null || !item.hasItemMeta()) {
             return false;
         }
@@ -311,6 +323,11 @@ public class SlotRestrictionListener implements Listener {
         List<String> lore = meta.getLore();
         return lore != null && lore.stream()
                 .anyMatch(line -> line.contains("NoArmor-SlotOverlay") || line.contains("NoArmor-Overlay"));
+    }
+
+    private void sendBlockedMessage(Player player) {
+        String message = plugin.getConfig().getString("messages.slot-blocked", "&cThis inventory slot is restricted!");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public Set<Integer> getRestrictedSlots() {
