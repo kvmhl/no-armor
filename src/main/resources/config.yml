@@ -1,0 +1,627 @@
+# NoArmor Configuration
+# Set items to false to prevent players from using them
+# Players with 'noarmor.bypass' permission can bypass all restrictions
+
+allowed-items:
+  # ============================================
+  # ARMOR - Helmets
+  # ============================================
+  leather_helmet: true
+  chainmail_helmet: true
+  iron_helmet: true
+  golden_helmet: true
+  diamond_helmet: true
+  netherite_helmet: true
+  turtle_helmet: true
+  
+  # ============================================
+  # ARMOR - Chestplates
+  # ============================================
+  leather_chestplate: true
+  chainmail_chestplate: true
+  iron_chestplate: true
+  golden_chestplate: true
+  diamond_chestplate: true
+  netherite_chestplate: true
+  elytra: true
+  
+  # ============================================
+  # ARMOR - Leggings
+  # ============================================
+  leather_leggings: true
+  chainmail_leggings: true
+  iron_leggings: true
+  golden_leggings: true
+  diamond_leggings: true
+  netherite_leggings: true
+  
+  # ============================================
+  # ARMOR - Boots
+  # ============================================
+  leather_boots: true
+  chainmail_boots: true
+  iron_boots: true
+  golden_boots: true
+  diamond_boots: true
+  netherite_boots: true
+  
+  # ============================================
+  # SWORDS
+  # ============================================
+  wooden_sword: true
+  stone_sword: true
+  iron_sword: true
+  golden_sword: true
+  diamond_sword: true
+  netherite_sword: true
+  
+  # ============================================
+  # PICKAXES
+  # ============================================
+  wooden_pickaxe: true
+  stone_pickaxe: true
+  iron_pickaxe: true
+  golden_pickaxe: true
+  diamond_pickaxe: true
+  netherite_pickaxe: true
+  
+  # ============================================
+  # AXES
+  # ============================================
+  wooden_axe: true
+  stone_axe: true
+  iron_axe: true
+  golden_axe: true
+  diamond_axe: true
+  netherite_axe: true
+  
+  # ============================================
+  # SHOVELS
+  # ============================================
+  wooden_shovel: true
+  stone_shovel: true
+  iron_shovel: true
+  golden_shovel: true
+  diamond_shovel: true
+  netherite_shovel: true
+  
+  # ============================================
+  # HOES
+  # ============================================
+  wooden_hoe: true
+  stone_hoe: true
+  iron_hoe: true
+  golden_hoe: true
+  diamond_hoe: true
+  netherite_hoe: true
+  
+  # ============================================
+  # RANGED WEAPONS
+  # ============================================
+  bow: true
+  crossbow: true
+  trident: true
+  
+  # ============================================
+  # SHIELDS & DEFENSE
+  # ============================================
+  shield: true
+  totem_of_undying: true
+  
+  # ============================================
+  # FISHING & MISC TOOLS
+  # ============================================
+  fishing_rod: true
+  carrot_on_a_stick: true
+  warped_fungus_on_a_stick: true
+  flint_and_steel: true
+  shears: true
+  brush: true
+  spyglass: true
+  
+  # ============================================
+  # POTIONS
+  # ============================================
+  potion: true
+  splash_potion: true
+  lingering_potion: true
+  
+  # ============================================
+  # FOOD ITEMS
+  # ============================================
+  apple: true
+  golden_apple: true
+  enchanted_golden_apple: true
+  baked_potato: true
+  beetroot: true
+  beetroot_soup: true
+  bread: true
+  cake: true
+  carrot: true
+  golden_carrot: true
+  chorus_fruit: true
+  cooked_beef: true
+  cooked_chicken: true
+  cooked_cod: true
+  cooked_mutton: true
+  cooked_porkchop: true
+  cooked_rabbit: true
+  cooked_salmon: true
+  cookie: true
+  dried_kelp: true
+  glow_berries: true
+  honey_bottle: true
+  melon_slice: true
+  mushroom_stew: true
+  poisonous_potato: true
+  potato: true
+  pufferfish: true
+  pumpkin_pie: true
+  rabbit_stew: true
+  beef: true
+  chicken: true
+  cod: true
+  mutton: true
+  porkchop: true
+  rabbit: true
+  salmon: true
+  rotten_flesh: true
+  spider_eye: true
+  suspicious_stew: true
+  sweet_berries: true
+  tropical_fish: true
+  
+  # ============================================
+  # THROWABLES
+  # ============================================
+  ender_pearl: true
+  egg: true
+  snowball: true
+  experience_bottle: true
+  fire_charge: true
+  wind_charge: true
+  
+  # ============================================
+  # BUCKETS
+  # ============================================
+  bucket: true
+  water_bucket: true
+  lava_bucket: true
+  powder_snow_bucket: true
+  milk_bucket: true
+  axolotl_bucket: true
+  cod_bucket: true
+  pufferfish_bucket: true
+  salmon_bucket: true
+  tropical_fish_bucket: true
+  tadpole_bucket: true
+  
+  # ============================================
+  # SPAWN EGGS (All mobs)
+  # ============================================
+  allay_spawn_egg: true
+  armadillo_spawn_egg: true
+  axolotl_spawn_egg: true
+  bat_spawn_egg: true
+  bee_spawn_egg: true
+  blaze_spawn_egg: true
+  bogged_spawn_egg: true
+  breeze_spawn_egg: true
+  camel_spawn_egg: true
+  cat_spawn_egg: true
+  cave_spider_spawn_egg: true
+  chicken_spawn_egg: true
+  cod_spawn_egg: true
+  cow_spawn_egg: true
+  creaking_spawn_egg: true
+  creeper_spawn_egg: true
+  dolphin_spawn_egg: true
+  donkey_spawn_egg: true
+  drowned_spawn_egg: true
+  elder_guardian_spawn_egg: true
+  enderman_spawn_egg: true
+  endermite_spawn_egg: true
+  evoker_spawn_egg: true
+  fox_spawn_egg: true
+  frog_spawn_egg: true
+  ghast_spawn_egg: true
+  glow_squid_spawn_egg: true
+  goat_spawn_egg: true
+  guardian_spawn_egg: true
+  hoglin_spawn_egg: true
+  horse_spawn_egg: true
+  husk_spawn_egg: true
+  iron_golem_spawn_egg: true
+  llama_spawn_egg: true
+  magma_cube_spawn_egg: true
+  mooshroom_spawn_egg: true
+  mule_spawn_egg: true
+  ocelot_spawn_egg: true
+  panda_spawn_egg: true
+  parrot_spawn_egg: true
+  phantom_spawn_egg: true
+  pig_spawn_egg: true
+  piglin_spawn_egg: true
+  piglin_brute_spawn_egg: true
+  pillager_spawn_egg: true
+  polar_bear_spawn_egg: true
+  pufferfish_spawn_egg: true
+  rabbit_spawn_egg: true
+  ravager_spawn_egg: true
+  salmon_spawn_egg: true
+  sheep_spawn_egg: true
+  shulker_spawn_egg: true
+  silverfish_spawn_egg: true
+  skeleton_spawn_egg: true
+  skeleton_horse_spawn_egg: true
+  slime_spawn_egg: true
+  sniffer_spawn_egg: true
+  snow_golem_spawn_egg: true
+  spider_spawn_egg: true
+  squid_spawn_egg: true
+  stray_spawn_egg: true
+  strider_spawn_egg: true
+  tadpole_spawn_egg: true
+  trader_llama_spawn_egg: true
+  tropical_fish_spawn_egg: true
+  turtle_spawn_egg: true
+  vex_spawn_egg: true
+  villager_spawn_egg: true
+  vindicator_spawn_egg: true
+  wandering_trader_spawn_egg: true
+  warden_spawn_egg: true
+  witch_spawn_egg: true
+  wither_skeleton_spawn_egg: true
+  wolf_spawn_egg: true
+  zoglin_spawn_egg: true
+  zombie_spawn_egg: true
+  zombie_horse_spawn_egg: true
+  zombie_villager_spawn_egg: true
+  zombified_piglin_spawn_egg: true
+  
+  # ============================================
+  # BOATS
+  # ============================================
+  oak_boat: true
+  spruce_boat: true
+  birch_boat: true
+  jungle_boat: true
+  acacia_boat: true
+  dark_oak_boat: true
+  mangrove_boat: true
+  cherry_boat: true
+  pale_oak_boat: true
+  bamboo_raft: true
+  oak_chest_boat: true
+  spruce_chest_boat: true
+  birch_chest_boat: true
+  jungle_chest_boat: true
+  acacia_chest_boat: true
+  dark_oak_chest_boat: true
+  mangrove_chest_boat: true
+  cherry_chest_boat: true
+  pale_oak_chest_boat: true
+  bamboo_chest_raft: true
+  
+  # ============================================
+  # MINECARTS
+  # ============================================
+  minecart: true
+  chest_minecart: true
+  furnace_minecart: true
+  tnt_minecart: true
+  hopper_minecart: true
+  
+  # ============================================
+  # MUSIC DISCS
+  # ============================================
+  music_disc_11: true
+  music_disc_13: true
+  music_disc_5: true
+  music_disc_blocks: true
+  music_disc_cat: true
+  music_disc_chirp: true
+  music_disc_creator: true
+  music_disc_creator_music_box: true
+  music_disc_far: true
+  music_disc_mall: true
+  music_disc_mellohi: true
+  music_disc_otherside: true
+  music_disc_pigstep: true
+  music_disc_precipice: true
+  music_disc_relic: true
+  music_disc_stal: true
+  music_disc_strad: true
+  music_disc_wait: true
+  music_disc_ward: true
+  
+  # ============================================
+  # BANNERS & PATTERNS
+  # ============================================
+  white_banner: true
+  orange_banner: true
+  magenta_banner: true
+  light_blue_banner: true
+  yellow_banner: true
+  lime_banner: true
+  pink_banner: true
+  gray_banner: true
+  light_gray_banner: true
+  cyan_banner: true
+  purple_banner: true
+  blue_banner: true
+  brown_banner: true
+  green_banner: true
+  red_banner: true
+  black_banner: true
+  
+  # ============================================
+  # WRITTEN & WRITABLE ITEMS
+  # ============================================
+  writable_book: true
+  written_book: true
+  enchanted_book: true
+  knowledge_book: true
+  name_tag: true
+  lead: true
+  saddle: true
+  
+  # ============================================
+  # HORSE ARMOR
+  # ============================================
+  leather_horse_armor: true
+  iron_horse_armor: true
+  golden_horse_armor: true
+  diamond_horse_armor: true
+  wolf_armor: true
+  
+  # ============================================
+  # DECORATIVE HEADS
+  # ============================================
+  creeper_head: true
+  zombie_head: true
+  skeleton_skull: true
+  wither_skeleton_skull: true
+  player_head: true
+  dragon_head: true
+  piglin_head: true
+  carved_pumpkin: true
+  
+  # ============================================
+  # REDSTONE COMPONENTS
+  # ============================================
+  redstone: true
+  redstone_torch: true
+  repeater: true
+  comparator: true
+  lever: true
+  stone_button: true
+  oak_button: true
+  spruce_button: true
+  birch_button: true
+  jungle_button: true
+  acacia_button: true
+  dark_oak_button: true
+  mangrove_button: true
+  cherry_button: true
+  pale_oak_button: true
+  bamboo_button: true
+  crimson_button: true
+  warped_button: true
+  polished_blackstone_button: true
+  stone_pressure_plate: true
+  oak_pressure_plate: true
+  spruce_pressure_plate: true
+  birch_pressure_plate: true
+  jungle_pressure_plate: true
+  acacia_pressure_plate: true
+  dark_oak_pressure_plate: true
+  mangrove_pressure_plate: true
+  cherry_pressure_plate: true
+  pale_oak_pressure_plate: true
+  bamboo_pressure_plate: true
+  crimson_pressure_plate: true
+  warped_pressure_plate: true
+  light_weighted_pressure_plate: true
+  heavy_weighted_pressure_plate: true
+  polished_blackstone_pressure_plate: true
+  tripwire_hook: true
+  daylight_detector: true
+  trapped_chest: true
+  observer: true
+  hopper: true
+  dropper: true
+  dispenser: true
+  piston: true
+  sticky_piston: true
+  tnt: true
+  target: true
+  sculk_sensor: true
+  calibrated_sculk_sensor: true
+  
+  # ============================================
+  # DYES
+  # ============================================
+  white_dye: true
+  orange_dye: true
+  magenta_dye: true
+  light_blue_dye: true
+  yellow_dye: true
+  lime_dye: true
+  pink_dye: true
+  gray_dye: true
+  light_gray_dye: true
+  cyan_dye: true
+  purple_dye: true
+  blue_dye: true
+  brown_dye: true
+  green_dye: true
+  red_dye: true
+  black_dye: true
+  
+  # ============================================
+  # FIREWORKS & EXPLOSIVES
+  # ============================================
+  firework_rocket: true
+  firework_star: true
+  
+  # ============================================
+  # SMITHING TEMPLATES
+  # ============================================
+  netherite_upgrade_smithing_template: true
+  coast_armor_trim_smithing_template: true
+  dune_armor_trim_smithing_template: true
+  eye_armor_trim_smithing_template: true
+  host_armor_trim_smithing_template: true
+  raiser_armor_trim_smithing_template: true
+  rib_armor_trim_smithing_template: true
+  sentry_armor_trim_smithing_template: true
+  shaper_armor_trim_smithing_template: true
+  silence_armor_trim_smithing_template: true
+  snout_armor_trim_smithing_template: true
+  spire_armor_trim_smithing_template: true
+  tide_armor_trim_smithing_template: true
+  vex_armor_trim_smithing_template: true
+  ward_armor_trim_smithing_template: true
+  wayfinder_armor_trim_smithing_template: true
+  wild_armor_trim_smithing_template: true
+  flow_armor_trim_smithing_template: true
+  bolt_armor_trim_smithing_template: true
+  
+  # ============================================
+  # POTTERY SHERDS
+  # ============================================
+  angler_pottery_sherd: true
+  archer_pottery_sherd: true
+  arms_up_pottery_sherd: true
+  blade_pottery_sherd: true
+  brewer_pottery_sherd: true
+  burn_pottery_sherd: true
+  danger_pottery_sherd: true
+  explorer_pottery_sherd: true
+  flow_pottery_sherd: true
+  friend_pottery_sherd: true
+  guster_pottery_sherd: true
+  heart_pottery_sherd: true
+  heartbreak_pottery_sherd: true
+  howl_pottery_sherd: true
+  miner_pottery_sherd: true
+  mourner_pottery_sherd: true
+  plenty_pottery_sherd: true
+  prize_pottery_sherd: true
+  scrape_pottery_sherd: true
+  sheaf_pottery_sherd: true
+  shelter_pottery_sherd: true
+  skull_pottery_sherd: true
+  snort_pottery_sherd: true
+  
+  # ============================================
+  # BANNER PATTERNS
+  # ============================================
+  flower_banner_pattern: true
+  creeper_banner_pattern: true
+  skull_banner_pattern: true
+  mojang_banner_pattern: true
+  globe_banner_pattern: true
+  piglin_banner_pattern: true
+  flow_banner_pattern: true
+  guster_banner_pattern: true
+  
+  # ============================================
+  # GOAT HORNS
+  # ============================================
+  goat_horn: true
+  
+  # ============================================
+  # MISC ITEMS
+  # ============================================
+  compass: true
+  recovery_compass: true
+  clock: true
+  map: true
+  filled_map: true
+  paper: true
+  book: true
+  slime_ball: true
+  ender_eye: true
+  nether_star: true
+  end_crystal: true
+  dragon_breath: true
+  glass_bottle: true
+  arrow: true
+  spectral_arrow: true
+  tipped_arrow: true
+  bone: true
+  bone_meal: true
+  string: true
+  feather: true
+  gunpowder: true
+  blaze_rod: true
+  blaze_powder: true
+  ghast_tear: true
+  gold_nugget: true
+  iron_nugget: true
+  nether_wart: true
+  spider_eye: true
+  fermented_spider_eye: true
+  magma_cream: true
+  glistering_melon_slice: true
+  rabbit_foot: true
+  rabbit_hide: true
+  phantom_membrane: true
+  nautilus_shell: true
+  heart_of_the_sea: true
+  shulker_shell: true
+  honeycomb: true
+  scute: true
+  armadillo_scute: true
+  flint: true
+  coal: true
+  charcoal: true
+  diamond: true
+  emerald: true
+  lapis_lazuli: true
+  quartz: true
+  amethyst_shard: true
+  raw_iron: true
+  raw_gold: true
+  raw_copper: true
+  copper_ingot: true
+  iron_ingot: true
+  gold_ingot: true
+  netherite_ingot: true
+  netherite_scrap: true
+  echo_shard: true
+  disc_fragment_5: true
+  prismarine_shard: true
+  prismarine_crystals: true
+  trial_key: true
+  ominous_trial_key: true
+  ominous_bottle: true
+  breeze_rod: true
+  resin_clump: true
+
+# Visual settings for restricted slots
+visuals:
+  # Material to show in restricted armor slots
+  blocked-slot-material: GRAY_STAINED_GLASS_PANE
+  blocked-slot-name: "&c&lRestricted"
+
+# Inventory slot restrictions
+# Block entire inventory slots from being used
+# Supports: single slots (5), ranges (0-8), keywords (hotbar, main, armor, offhand)
+restricted-slots:
+  enabled: true
+  slots: []
+  # Example configurations:
+  # slots:
+  #   - "0-2"      # Block hotbar slots 0, 1, 2
+  #   - "9-17"     # Block first row of main inventory
+  #   - "offhand"  # Block offhand slot
+  #   - "armor"    # Block all armor slots
+
+# Messages
+messages:
+  item-blocked: "&cYou are not allowed to use this item!"
+  armor-blocked: "&cYou cannot equip this armor piece!"
+  slot-blocked: "&cThis inventory slot is restricted!"

@@ -1,0 +1,19 @@
+name: NoArmor
+version: '${project.version}'
+main: no_armor.NoArmorPlugin
+api-version: '1.21'
+description: Lightweight plugin to restrict armor and tool usage with visual feedback
+
+commands:
+  noarmor:
+    description: NoArmor admin commands
+    usage: /<command> [reload]
+    permission: noarmor.admin
+
+permissions:
+  noarmor.admin:
+    description: Allows access to admin commands
+    default: op
+  noarmor.bypass:
+    description: Bypass all item restrictions
+    default: false
